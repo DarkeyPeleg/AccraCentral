@@ -1,0 +1,239 @@
+@import "tailwindcss";
+
+@theme {
+  /* Typography */
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+  /* Ink & muted text */
+  --color-ink: #1c1c18;
+  --color-muted: #57423a;
+  --color-muted-soft: #8f7066;
+
+  /* Brand (unified from #9f3c09 / #a43700) */
+  --color-brand: #9f3c09;
+  --color-brand-hover: #c05422;
+  --color-brand-deep: #782800;
+
+  /* Surfaces */
+  --color-surface: #fcf9f2;
+  --color-surface-raised: #ffffff;
+  --color-surface-sunken: #f6f3ec;
+  --color-surface-muted: #ebe8e1;
+  --color-surface-modal: #fdfbf7;
+  --color-surface-chip: #e2dfde;
+  --color-surface-input: #f3efe8;
+
+  /* Borders */
+  --color-border: #dec0b6;
+  --color-border-soft: #f0e8e5;
+
+  /* Peach secondary */
+  --color-peach: #ffdbce;
+  --color-peach-hover: #ffd0be;
+
+  /* Semantic */
+  --color-danger: #ba1a1a;
+  --color-danger-hover: #8f1212;
+  --color-danger-soft: #ffdad6;
+  --color-danger-tint: #fff8f6;
+  --color-danger-border: #ffd2c4;
+
+  --color-success: #2d6a4f;
+  --color-success-hover: #22533d;
+  --color-success-text: #166534;
+  --color-success-icon: #16a34a;
+  --color-success-soft: #f0fdf4;
+  --color-success-border: #bbf7d0;
+  --color-success-mint: #e2f7ed;
+  --color-verified: #72f1b8;
+
+  --color-warn: #e07a00;
+  --color-chrome: #2f3131;
+}
+
+@layer base {
+  html {
+    @apply antialiased;
+  }
+
+  body {
+    @apply bg-surface text-ink font-sans;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    @apply cursor-pointer;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand;
+  }
+}
+
+@layer components {
+  /* —— Buttons (no nested custom @apply) —— */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-brand px-4 py-3 text-sm font-bold text-white shadow-sm
+      transition-all duration-200 hover:bg-brand-hover active:scale-[0.98]
+      disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-primary-sm {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-brand px-3 py-2 text-xs font-bold text-white shadow-sm
+      transition-all duration-200 hover:bg-brand-hover active:scale-[0.98]
+      disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-peach px-4 py-3 text-sm font-bold text-brand
+      transition-all duration-200 hover:bg-peach-hover active:scale-[0.98]
+      disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-secondary-sm {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-peach px-3 py-2 text-xs font-bold text-brand
+      transition-all duration-200 hover:bg-peach-hover active:scale-[0.98]
+      disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-surface-raised px-4 py-3 text-sm font-bold text-ink
+      transition-all duration-200 hover:bg-surface-sunken active:scale-[0.98]
+      disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-transparent px-3 py-2 text-sm font-bold text-muted
+      transition-all duration-200 hover:bg-surface-muted hover:text-ink active:scale-[0.98]
+      disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-success {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-success px-4 py-3 text-sm font-bold text-white shadow-sm
+      transition-all duration-200 hover:bg-success-hover active:scale-[0.98]
+      disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-danger px-4 py-3 text-sm font-bold text-white shadow-sm
+      transition-all duration-200 hover:bg-danger-hover active:scale-[0.98]
+      disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-danger-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-danger bg-transparent px-4 py-3 text-sm font-bold text-danger
+      transition-all duration-200 hover:bg-danger-soft active:scale-[0.98]
+      disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-icon {
+    @apply inline-flex items-center justify-center rounded-full p-2 text-brand
+      transition-colors duration-200 hover:bg-surface-muted;
+  }
+
+  .btn-back {
+    @apply inline-flex items-center gap-1.5 rounded-xl bg-peach px-3 py-1.5 text-xs font-bold text-brand
+      transition-colors duration-200 hover:bg-peach-hover;
+  }
+
+  /* —— Surfaces —— */
+  .card {
+    @apply rounded-2xl border border-border bg-surface-raised p-5 shadow-sm;
+  }
+
+  .card-flush {
+    @apply overflow-hidden rounded-2xl border border-border bg-surface-raised shadow-sm;
+  }
+
+  .card-inset {
+    @apply rounded-2xl border border-border bg-surface-sunken;
+  }
+
+  .card-peach {
+    @apply rounded-2xl border border-brand/15 bg-peach;
+  }
+
+  .card-success {
+    @apply rounded-2xl border border-success-border bg-success-soft text-success-text;
+  }
+
+  .modal-panel {
+    @apply rounded-2xl border border-border bg-surface-modal shadow-xl;
+  }
+
+  /* —— Forms —— */
+  .input-field {
+    @apply w-full rounded-xl border border-border bg-surface-raised px-3 py-2.5 text-sm text-ink
+      placeholder:text-muted-soft transition-colors
+      focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand;
+  }
+
+  .input-search {
+    @apply w-full rounded-full border border-border bg-surface-input py-2 pr-10 pl-9 text-sm text-ink
+      placeholder:text-muted-soft transition-colors
+      focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand;
+  }
+
+  /* —— Page chrome —— */
+  .page-stack {
+    @apply space-y-6 pb-20 md:pb-8;
+  }
+
+  .page-title {
+    @apply text-2xl font-bold tracking-tight text-ink;
+  }
+
+  .section-title {
+    @apply text-lg font-bold tracking-tight text-ink;
+  }
+
+  .chrome-bar {
+    @apply border-border bg-surface/95 backdrop-blur-md;
+  }
+
+  /* —— Nav —— */
+  .nav-item {
+    @apply flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted
+      transition-colors duration-200 hover:bg-surface-muted hover:text-ink;
+  }
+
+  .nav-item-active {
+    @apply bg-peach font-bold text-brand hover:bg-peach hover:text-brand;
+  }
+
+  .badge-count {
+    @apply inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-brand px-1.5
+      text-[10px] font-bold text-white;
+  }
+
+  .badge-danger {
+    @apply inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-danger px-1.5
+      text-[10px] font-bold text-white;
+  }
+
+  .toast {
+    @apply fixed top-20 right-4 z-50 rounded-2xl border border-border bg-ink px-4 py-3
+      text-xs font-bold text-white shadow-lg;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold
+      transition-colors duration-200;
+  }
+
+  .chip-active {
+    @apply bg-brand text-white;
+  }
+
+  .chip-idle {
+    @apply bg-surface-sunken text-muted hover:bg-surface-muted;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast,
+  .animate-bounce,
+  .animate-pulse {
+    animation: none !important;
+  }
+}

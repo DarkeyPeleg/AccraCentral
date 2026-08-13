@@ -1,0 +1,6 @@
+{
+  "name": "Accra Central Market",
+  "description": "West African digital thrift & artisan marketplace featuring buyer discovery, live haggle negotiation console, vendor stall executive suite, deposit hold reservations, and admin moderation.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
