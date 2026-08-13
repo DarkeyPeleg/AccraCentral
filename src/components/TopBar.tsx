@@ -37,7 +37,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   const showSearch = currentView !== 'product-detail';
 
   return (
-    <header className="sticky top-0 z-50 chrome-bar border-b shadow-sm">
+    <header className="sticky top-0 z-50 chrome-bar border-b shadow-sm supports-[backdrop-filter]:bg-surface-raised/95">
       <div className="flex w-full items-center gap-2 px-3 py-2.5 sm:gap-3 sm:px-4 sm:py-3 md:px-8 lg:px-10 xl:px-12">
         <button
           type="button"

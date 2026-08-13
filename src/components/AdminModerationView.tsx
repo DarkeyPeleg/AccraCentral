@@ -41,7 +41,7 @@ export const AdminModerationView: React.FC<AdminModerationViewProps> = ({
             <span>Admin Moderation & Compliance Suite</span>
           </h2>
           <p className="text-xs text-muted">
-            Review vendor stall licenses, Ghana Card IDs, and resolve escrow disputes
+            Review vendor stall licenses, Ghana Card IDs, and resolve order disputes
           </p>
         </div>
 
@@ -92,7 +92,7 @@ export const AdminModerationView: React.FC<AdminModerationViewProps> = ({
             <span>Flagged Transactions</span>
             <ShieldAlert className="w-4 h-4 text-warn" />
           </div>
-          <div className="text-2xl font-bold text-ink">8 Holds</div>
+          <div className="text-2xl font-bold text-ink">8 Orders</div>
           <p className="text-[11px] text-muted">0.02% Suspicious Rate</p>
         </div>
       </div>
@@ -171,7 +171,7 @@ export const AdminModerationView: React.FC<AdminModerationViewProps> = ({
                 </div>
                 <div className="text-right">
                   <span className="font-black text-lg text-brand">GHS {caseItem.amountGhs.toFixed(2)}</span>
-                  <p className="text-[10px] text-muted">Held in Escrow</p>
+                  <p className="text-[10px] text-muted">Disputed Amount</p>
                 </div>
               </div>
 

@@ -11,7 +11,6 @@ import { HaggleConsoleView } from './components/HaggleConsoleView';
 import { VendorDashboardView } from './components/VendorDashboardView';
 import { CartView } from './components/CartView';
 import { AdminModerationView } from './components/AdminModerationView';
-import { HoldReserveModal } from './components/HoldReserveModal';
 
 export default function App() {
   const [role, setRole] = useState<AppRole>('buyer');
@@ -27,10 +26,6 @@ export default function App() {
   const [activeHaggleId, setActiveHaggleId] = useState<string>('neg-1');
   const [approvals, setApprovals] = useState<VendorApproval[]>(INITIAL_VENDOR_APPROVALS);
   const [disputes, setDisputes] = useState<DisputeCase[]>(INITIAL_DISPUTES);
-
-  // Hold Reserve Modal State
-  const [isHoldModalOpen, setIsHoldModalOpen] = useState<boolean>(false);
-  const [reserveModalItem, setReserveModalItem] = useState<MarketItem | null>(null);
 
   // Toast Notification Message
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -116,17 +111,6 @@ export default function App() {
     setCurrentView('haggle-console');
   };
 
-  // Open Hold Reserve Modal
-  const handleOpenReserveModal = (item: MarketItem) => {
-    setReserveModalItem(item);
-    setIsHoldModalOpen(true);
-  };
-
-  // Confirm Hold Reservation
-  const handleConfirmHold = (pin: string, depositAmount: number) => {
-    showToast(`Hold Reserved! Release PIN: ${pin}`);
-  };
-
   // Cart Operations
   const handleAddToCart = (item: MarketItem) => {
     setCartItems(prev => {
@@ -136,7 +120,7 @@ export default function App() {
       }
       return [...prev, { item, quantity: 1 }];
     });
-    showToast(`Added "${item.title}" to reservation cart`);
+    showToast(`Added "${item.title}" to cart`);
   };
 
   const handleUpdateCartQuantity = (itemId: string, delta: number) => {
@@ -183,7 +167,7 @@ export default function App() {
 
   const handleAcceptHaggleOffer = (negId: string) => {
     setNegotiations(prev => prev.map(n => n.id === negId ? { ...n, status: 'accepted' } : n));
-    showToast('Haggle Offer Accepted! Proceeding to Reserve Deposit.');
+    showToast('Offer accepted! Add the item to your cart to continue.');
   };
 
   const handleDeclineHaggleOffer = (negId: string) => {
@@ -202,8 +186,12 @@ export default function App() {
     showToast('Item listing removed');
   };
 
-  const handleRedeemVendorPin = (pin: string) => {
-    showToast(`PIN ${pin} verified! GHS 180.00 released to MoMo`);
+  const handleCheckout = () => {
+    if (cartItems.length === 0) return;
+    const total = cartItems.reduce((acc, curr) => acc + curr.item.priceGhs * curr.quantity, 0);
+    showToast(`Order placed for GHS ${total}. Pay the seller at pickup.`);
+    setCartItems([]);
+    setCurrentView('marketplace');
   };
 
   // Admin Operations
@@ -219,11 +207,11 @@ export default function App() {
 
   const handleResolveDispute = (id: string, decision: 'refund' | 'reject') => {
     setDisputes(prev => prev.map(d => d.id === id ? { ...d, status: decision === 'refund' ? 'refunded' : 'rejected' } : d));
-    showToast(decision === 'refund' ? 'Refund issued to buyer in full.' : 'Claim rejected. Escrow released to vendor.');
+    showToast(decision === 'refund' ? 'Refund issued to buyer in full.' : 'Claim rejected.');
   };
 
   return (
-    <div className="flex min-h-dvh flex-col overflow-x-hidden bg-surface font-sans text-ink">
+    <div className="flex min-h-dvh flex-col overflow-x-clip bg-surface font-sans text-ink">
       {/* Toast Notification Popup */}
       {toastMessage && <div className="toast animate-bounce">{toastMessage}</div>}
 
@@ -279,7 +267,7 @@ export default function App() {
               items={items}
               onSelectItem={handleSelectItem}
               onOpenHaggle={handleOpenHaggle}
-              onReserveItem={handleOpenReserveModal}
+              onAddToCart={handleAddToCart}
               searchQuery={searchQuery}
             />
           )}
@@ -289,7 +277,6 @@ export default function App() {
               item={selectedItem}
               onBack={() => setCurrentView('marketplace')}
               onOpenHaggle={handleOpenHaggle}
-              onReserveItem={handleOpenReserveModal}
               onAddToCart={handleAddToCart}
             />
           )}
@@ -311,7 +298,6 @@ export default function App() {
               items={items}
               onAddItem={handleAddVendorItem}
               onDeleteItem={handleDeleteVendorItem}
-              onRedeemPin={handleRedeemVendorPin}
             />
           )}
 
@@ -320,11 +306,7 @@ export default function App() {
               cartItems={cartItems}
               onUpdateQuantity={handleUpdateCartQuantity}
               onRemoveItem={handleRemoveCartItem}
-              onCheckout={() => {
-                if (cartItems.length > 0) {
-                  handleOpenReserveModal(cartItems[0].item);
-                }
-              }}
+              onCheckout={handleCheckout}
               onContinueShopping={() => setCurrentView('marketplace')}
             />
           )}
@@ -348,16 +330,6 @@ export default function App() {
         cartCount={cartItems.reduce((a, b) => a + b.quantity, 0)}
         activeHaggleCount={negotiations.filter(n => n.status === 'active' || n.status === 'countered').length}
       />
-
-      {/* Hold Reserve Escrow Deposit Modal */}
-      {reserveModalItem && (
-        <HoldReserveModal
-          item={reserveModalItem}
-          isOpen={isHoldModalOpen}
-          onClose={() => setIsHoldModalOpen(false)}
-          onConfirmHold={handleConfirmHold}
-        />
-      )}
     </div>
   );
 }

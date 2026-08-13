@@ -21,7 +21,6 @@ interface ProductDetailViewProps {
   item: MarketItem;
   onBack: () => void;
   onOpenHaggle: (item: MarketItem) => void;
-  onReserveItem: (item: MarketItem) => void;
   onAddToCart: (item: MarketItem) => void;
 }
 
@@ -29,7 +28,6 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({
   item,
   onBack,
   onOpenHaggle,
-  onReserveItem,
   onAddToCart
 }) => {
   const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
@@ -156,7 +154,7 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({
                 <span className="text-base text-muted-soft line-through">GHS {item.originalPriceGhs}</span>
               )}
               <span className="bg-success/10 text-success text-xs font-bold px-2.5 py-1 rounded-full ml-auto">
-                20% Deposit: GHS {Math.round(item.priceGhs * 0.2)}
+                {item.stockStatus === 'in_stock' ? 'In Stock' : item.stockStatus === 'low_stock' ? 'Low Stock' : 'Sold Out'}
               </span>
             </div>
           </div>
@@ -260,24 +258,16 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({
               <button
                 type="button"
                 onClick={() => onAddToCart(item)}
-                className="btn-outline w-full"
+                className="btn-primary w-full"
               >
                 <ShoppingBag className="w-4 h-4" />
                 Add to Cart
               </button>
             </div>
 
-            <button
-              type="button"
-              onClick={() => onReserveItem(item)}
-              className="btn-primary w-full text-base"
-            >
-              Hold · GHS {Math.round(item.priceGhs * 0.2)}
-            </button>
-
-            <p className="text-[11px] text-center text-muted flex items-center justify-center gap-1">
-              <Clock className="w-3.5 h-3.5 text-brand" />
-              Item held exclusively for 48 hours. Escrow refund guaranteed if not as described.
+            <p className="flex items-center justify-center gap-1 text-center text-[11px] text-muted">
+              <Clock className="h-3.5 w-3.5 text-brand" />
+              Pay the seller when you pick up at the stall.
             </p>
           </div>
         </div>

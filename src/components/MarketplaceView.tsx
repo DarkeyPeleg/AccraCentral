@@ -17,7 +17,7 @@ interface MarketplaceViewProps {
   items: MarketItem[];
   onSelectItem: (item: MarketItem) => void;
   onOpenHaggle: (item: MarketItem) => void;
-  onReserveItem: (item: MarketItem) => void;
+  onAddToCart: (item: MarketItem) => void;
   searchQuery: string;
 }
 
@@ -25,7 +25,7 @@ export const MarketplaceView: React.FC<MarketplaceViewProps> = ({
   items,
   onSelectItem,
   onOpenHaggle,
-  onReserveItem,
+  onAddToCart,
   searchQuery
 }) => {
   const [selectedZone, setSelectedZone] = useState<string>('All Zones');
@@ -73,23 +73,23 @@ export const MarketplaceView: React.FC<MarketplaceViewProps> = ({
         <div className="relative z-10 max-w-3xl space-y-3">
           <div className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-bold text-white backdrop-blur-md">
             <Sparkles className="h-3.5 w-3.5 text-peach" />
-            Live Market Haggle & Reserve Platform
+            Live Market Shopping & Negotiation
           </div>
           <h2 className="text-2xl leading-tight font-bold tracking-tight sm:text-3xl md:text-4xl">
             Discover Verified Thrift & Handcrafted Treasures in Accra
           </h2>
           <p className="max-w-2xl text-sm leading-relaxed text-peach md:text-base">
-            Directly from Kantomanto Sheds, Makola Rows, and Bolga artisans. Negotiate live prices, place 20% deposit holds, and pick up safely at the stall.
+            Directly from Kantomanto Sheds, Makola Rows, and Bolga artisans. Negotiate live prices and arrange pickup at the stall.
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-2 text-xs">
             <div className="flex items-center gap-1.5 bg-black/20 px-3 py-1.5 rounded-xl border border-white/10">
               <ShieldCheck className="w-4 h-4 text-verified" />
-              <span>Escrow Protected Holds</span>
+              <span>Verified Market Sellers</span>
             </div>
             <div className="flex items-center gap-1.5 bg-black/20 px-3 py-1.5 rounded-xl border border-white/10">
               <Clock className="w-4 h-4 text-peach" />
-              <span>48-Hour Stall Reservations</span>
+              <span>Pickup at the Stall</span>
             </div>
           </div>
         </div>
@@ -230,9 +230,6 @@ export const MarketplaceView: React.FC<MarketplaceViewProps> = ({
                       </span>
                     )}
                   </div>
-                  <p className="text-xs font-semibold text-success">
-                  Reserve with GHS {Math.round(item.priceGhs * 0.2)} deposit
-                </p>
                 </div>
               </div>
 
@@ -248,10 +245,10 @@ export const MarketplaceView: React.FC<MarketplaceViewProps> = ({
 
                 <button
                   type="button"
-                  onClick={() => onReserveItem(item)}
+                  onClick={() => onAddToCart(item)}
                   className="btn-primary-sm !py-2.5 !text-sm"
                 >
-                  Hold
+                  Add
                 </button>
               </div>
             </div>

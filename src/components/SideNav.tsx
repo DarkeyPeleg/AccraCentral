@@ -154,7 +154,7 @@ export const SideNav: React.FC<SideNavProps> = ({
 
         <button type="button" onClick={() => setCurrentView('cart')} className="nav-item">
           <Calendar className="h-4 w-4" />
-          My Held Items
+          My Cart & Orders
         </button>
 
         {isAdmin && (

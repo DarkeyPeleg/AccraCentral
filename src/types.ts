@@ -100,14 +100,3 @@ export interface DisputeCase {
   isUrgent: boolean;
   status: 'active' | 'refunded' | 'rejected';
 }
-
-export interface ActiveHoldPin {
-  pin: string;
-  itemId: string;
-  itemTitle: string;
-  vendorName: string;
-  depositAmount: number;
-  balanceDue: number;
-  timestamp: string;
-  isRedeemed: boolean;
-}

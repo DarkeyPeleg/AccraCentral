@@ -3,7 +3,6 @@ import {
   MessageSquare,
   ShoppingBag,
   ShieldCheck,
-  Clock,
   Store,
   ArrowRight,
   TrendingUp,
@@ -45,7 +44,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <div>
           <h2 className="page-title">Buyer Dashboard</h2>
           <p className="mt-1 text-sm text-muted">
-            Track holds, haggles, and market activity. Browse products in Marketplace.
+            Track negotiations, cart, and market activity. Browse products in Marketplace.
           </p>
         </div>
         <button type="button" onClick={onOpenMarketplace} className="btn-primary shrink-0">
@@ -93,12 +92,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <div className="card">
           <div className="mb-3 flex items-center justify-between">
             <span className="text-xs font-bold tracking-wider text-muted uppercase">
-              Open Holds
+              Accepted Offers
             </span>
-            <Clock className="h-4 w-4 text-warn" />
+            <ShieldCheck className="h-4 w-4 text-success" />
           </div>
-          <div className="text-3xl font-bold text-ink">2</div>
-          <p className="mt-2 text-xs text-muted">48-hour escrow windows active</p>
+          <div className="text-3xl font-bold text-ink">
+            {negotiations.filter((n) => n.status === 'accepted').length}
+          </div>
+          <p className="mt-2 text-xs text-muted">Ready to add to cart</p>
         </div>
 
         <div className="card">
@@ -185,9 +186,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           <div className="card-success !rounded-xl p-4 text-xs">
             <div className="mb-1 flex items-center gap-1.5 font-bold">
               <ShieldCheck className="h-3.5 w-3.5" />
-              Escrow protected
+              Pay at the stall
             </div>
-            Deposits are held until stall pickup. Refunds if item is not as described.
+            Order online, then pay the seller when you pick up. Negotiate prices before you buy.
           </div>
         </section>
       </div>

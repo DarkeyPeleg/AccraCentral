@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { 
   DollarSign, 
-  Clock, 
   ShoppingBag, 
   ShieldCheck, 
   PlusCircle, 
-  KeyRound, 
   Sparkles, 
   Mic, 
   Upload, 
@@ -36,18 +34,13 @@ interface VendorDashboardViewProps {
   items: MarketItem[];
   onAddItem: (item: MarketItem) => void;
   onDeleteItem: (id: string) => void;
-  onRedeemPin: (pin: string) => void;
 }
 
 export const VendorDashboardView: React.FC<VendorDashboardViewProps> = ({
   items,
   onAddItem,
   onDeleteItem,
-  onRedeemPin
 }) => {
-  const [pinInput, setPinInput] = useState('');
-  const [pinStatus, setPinStatus] = useState<string | null>(null);
-
   // Rapid Listing Form State
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('Fabrics');
@@ -56,14 +49,6 @@ export const VendorDashboardView: React.FC<VendorDashboardViewProps> = ({
   const [rawNotes, setRawNotes] = useState('');
   const [description, setDescription] = useState('');
   const [isGeneratingAi, setIsGeneratingAi] = useState(false);
-
-  const handleRedeem = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!pinInput.trim()) return;
-    onRedeemPin(pinInput);
-    setPinStatus(`PIN ${pinInput} Verified & Funds Released to MoMo!`);
-    setPinInput('');
-  };
 
   const handleAiDescribe = async () => {
     setIsGeneratingAi(true);
@@ -129,7 +114,7 @@ export const VendorDashboardView: React.FC<VendorDashboardViewProps> = ({
       },
       {
         type: 'bar' as const,
-        label: 'Holds Completed',
+        label: 'Orders Completed',
         backgroundColor: '#ffdbce',
         borderColor: '#c05422',
         borderWidth: 1,
@@ -139,7 +124,7 @@ export const VendorDashboardView: React.FC<VendorDashboardViewProps> = ({
   };
 
   const donutData = {
-    labels: ['Fulfilled', 'Active Holds', 'In Transit'],
+    labels: ['Fulfilled', 'Pending Pickup', 'In Transit'],
     datasets: [
       {
         data: [18, 4, 3],
@@ -160,7 +145,7 @@ export const VendorDashboardView: React.FC<VendorDashboardViewProps> = ({
               VERIFIED
             </span>
           </h2>
-          <p className="text-xs text-muted">Manage active inventory, redeem hold PINs & track sales</p>
+          <p className="text-xs text-muted">Manage inventory, publish products & track sales</p>
         </div>
 
         {/* Verification Status Alert */}
@@ -185,11 +170,11 @@ export const VendorDashboardView: React.FC<VendorDashboardViewProps> = ({
         {/* Metric 2 */}
         <div className="card space-y-1 !p-4">
           <div className="flex items-center justify-between text-xs text-muted">
-            <span>Active Holds Reserved</span>
-            <Clock className="w-4 h-4 text-warn" />
+            <span>Pending Orders</span>
+            <ShoppingBag className="w-4 h-4 text-warn" />
           </div>
-          <div className="text-2xl font-bold text-ink">4 Holds</div>
-          <p className="text-[11px] text-muted">GHS 360 in Escrow</p>
+          <div className="text-2xl font-bold text-ink">4 Orders</div>
+          <p className="text-[11px] text-muted">Awaiting stall pickup</p>
         </div>
 
         {/* Metric 3 */}
@@ -213,41 +198,9 @@ export const VendorDashboardView: React.FC<VendorDashboardViewProps> = ({
         </div>
       </div>
 
-      {/* Redeem Hold PIN & Rapid Listing Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Redeem Release PIN Widget */}
-        <div className="card-peach border-2 border-brand p-5 space-y-3">
-          <div className="flex items-center gap-2 text-brand">
-            <KeyRound className="w-5 h-5" />
-            <h3 className="font-bold text-base">Enter Buyer Pickup Code</h3>
-          </div>
-          <p className="text-xs text-muted">
-            When a buyer arrives at Stall B-12, enter their 4-digit pickup code to confirm handover and receive payment to Mobile Money.
-          </p>
-
-          <form onSubmit={handleRedeem} className="space-y-2">
-            <input
-              type="text"
-              maxLength={4}
-              value={pinInput}
-              onChange={(e) => setPinInput(e.target.value)}
-              placeholder="e.g. 4821"
-              className="input-field text-center text-xl font-bold tracking-widest text-brand border-brand"
-            />
-            <button type="submit" className="btn-primary w-full">
-              Confirm Pickup & Get Paid
-            </button>
-          </form>
-
-          {pinStatus && (
-            <div className="p-2.5 bg-white rounded-xl text-xs font-bold text-success text-center border border-success/30">
-              {pinStatus}
-            </div>
-          )}
-        </div>
-
-        {/* Rapid New Item Listing Form */}
-        <div className="lg:col-span-2 card space-y-4">
+      {/* Rapid Listing */}
+      <div className="grid grid-cols-1 gap-6">
+        <div className="card space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="font-bold text-base text-ink flex items-center gap-2">
               <PlusCircle className="w-5 h-5 text-brand" />
@@ -379,7 +332,7 @@ export const VendorDashboardView: React.FC<VendorDashboardViewProps> = ({
 
           <div className="text-xs text-muted space-y-1">
             <p>• 18 Orders Picked Up & Completed</p>
-            <p>• 4 Active Deposit Holds Awaiting Pickup</p>
+            <p>• 4 Orders Awaiting Stall Pickup</p>
           </div>
         </div>
       </div>

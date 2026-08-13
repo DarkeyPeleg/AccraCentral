@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShoppingBag, Trash2, ShieldCheck, ArrowRight, ArrowLeft } from 'lucide-react';
+import { ShoppingBag, Trash2, ArrowRight, ArrowLeft } from 'lucide-react';
 import { CartItem } from '../types';
 
 interface CartViewProps {
@@ -15,27 +15,23 @@ export const CartView: React.FC<CartViewProps> = ({
   onUpdateQuantity,
   onRemoveItem,
   onCheckout,
-  onContinueShopping
+  onContinueShopping,
 }) => {
   const subtotal = cartItems.reduce((acc, curr) => acc + curr.item.priceGhs * curr.quantity, 0);
-  const marketFee = Math.round(subtotal * 0.02); // 2% platform escrow fee
-  const depositHoldTotal = Math.round(subtotal * 0.2);
+  const itemCount = cartItems.reduce((acc, curr) => acc + curr.quantity, 0);
 
   if (cartItems.length === 0) {
     return (
-      <div className="p-12 text-center bg-white rounded-3xl border border-border space-y-4 max-w-md mx-auto my-8">
-        <div className="w-16 h-16 bg-peach text-brand rounded-full flex items-center justify-center mx-auto">
-          <ShoppingBag className="w-8 h-8" />
+      <div className="mx-auto my-8 max-w-md space-y-4 rounded-3xl border border-border bg-white p-12 text-center">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-peach text-brand">
+          <ShoppingBag className="h-8 w-8" />
         </div>
-        <h3 className="font-extrabold text-xl text-ink">Your Cart is Empty</h3>
+        <h3 className="text-xl font-extrabold text-ink">Your Cart is Empty</h3>
         <p className="text-xs text-muted">
-          Discover authentic fabrics, leathercraft, and artisan pieces across Accra Central Market stalls.
+          Discover authentic fabrics, leathercraft, and artisan pieces across Accra Central Market
+          stalls.
         </p>
-        <button
-          type="button"
-          onClick={onContinueShopping}
-          className="btn-primary"
-        >
+        <button type="button" onClick={onContinueShopping} className="btn-primary">
           Browse Products
         </button>
       </div>
@@ -44,18 +40,16 @@ export const CartView: React.FC<CartViewProps> = ({
 
   return (
     <div className="page-stack">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-3">
         <button type="button" onClick={onContinueShopping} className="btn-back">
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="h-4 w-4" />
           Continue Shopping
         </button>
-
         <h2 className="page-title">My Cart</h2>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Cart Item List */}
-        <div className="lg:col-span-2 space-y-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="space-y-3 lg:col-span-2">
           {cartItems.map(({ item, quantity }) => (
             <div
               key={item.id}
@@ -67,18 +61,12 @@ export const CartView: React.FC<CartViewProps> = ({
                   alt={item.title}
                   className="h-16 w-16 shrink-0 rounded-xl border object-cover sm:h-20 sm:w-20"
                 />
-
                 <div className="min-w-0 flex-1 space-y-1">
                   <h4 className="truncate text-sm font-bold text-ink">{item.title}</h4>
                   <p className="truncate text-xs text-muted">
                     {item.stallNumber} · {item.vendorName}
                   </p>
-                  <div className="text-xs font-black text-brand">
-                    GHS {item.priceGhs}
-                    <span className="ml-2 text-[10px] font-normal text-muted">
-                      (GHS {Math.round(item.priceGhs * 0.2)} hold)
-                    </span>
-                  </div>
+                  <div className="text-xs font-bold text-brand">GHS {item.priceGhs}</div>
                 </div>
               </div>
 
@@ -107,53 +95,36 @@ export const CartView: React.FC<CartViewProps> = ({
                   className="rounded-xl p-2 text-danger transition-colors hover:bg-danger-soft"
                   title="Remove Item"
                 >
-                  <Trash2 className="w-4 h-4" />
+                  <Trash2 className="h-4 w-4" />
                 </button>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Order Summary & Escrow Deposit Breakdown */}
-        <div className="card space-y-4 h-fit">
-          <h3 className="font-bold text-base text-ink border-b border-border-soft pb-3">
-            Escrow Hold Summary
+        <div className="card h-fit space-y-4">
+          <h3 className="border-b border-border-soft pb-3 text-base font-bold text-ink">
+            Order Summary
           </h3>
 
           <div className="space-y-2 text-xs text-muted">
             <div className="flex justify-between">
-              <span>Full Merchandise Value:</span>
+              <span>Items ({itemCount}):</span>
               <span className="font-bold text-ink">GHS {subtotal}</span>
             </div>
-
-            <div className="flex justify-between">
-              <span>Escrow Protection Fee (2%):</span>
-              <span className="font-bold text-ink">GHS {marketFee}</span>
-            </div>
-
-            <div className="pt-2 border-t border-border-soft flex justify-between text-sm font-extrabold text-brand">
-              <span>20% Deposit Due Now:</span>
-              <span>GHS {depositHoldTotal + marketFee}</span>
-            </div>
-
-            <div className="flex justify-between text-xs font-bold text-success">
-              <span>Payable at Stall on Pickup:</span>
-              <span>GHS {subtotal - depositHoldTotal}</span>
+            <div className="flex justify-between border-t border-border-soft pt-2 text-sm font-extrabold text-brand">
+              <span>Total:</span>
+              <span>GHS {subtotal}</span>
             </div>
           </div>
 
-          <div className="card-success p-3 text-[11px] flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 shrink-0 text-success-icon" />
-            <span>Escrow holds funds securely until you inspect & release with PIN at stall.</span>
-          </div>
+          <p className="text-[11px] text-muted">
+            Arrange pickup with the seller at their stall. Pay on collection.
+          </p>
 
-          <button
-            type="button"
-            onClick={onCheckout}
-            className="btn-primary w-full"
-          >
-            <span>Pay Deposit to Hold Items</span>
-            <ArrowRight className="w-4 h-4" />
+          <button type="button" onClick={onCheckout} className="btn-primary w-full">
+            <span>Place Order</span>
+            <ArrowRight className="h-4 w-4" />
           </button>
         </div>
       </div>
