@@ -94,17 +94,17 @@ export const HaggleConsoleView: React.FC<HaggleConsoleViewProps> = ({
   return (
     <div className="page-stack">
       {/* Console Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="flex min-w-0 items-center gap-3">
           {onBackToMarket && (
-            <button type="button" onClick={onBackToMarket} className="btn-back">
+            <button type="button" onClick={onBackToMarket} className="btn-back shrink-0">
               <ArrowLeft className="w-4 h-4" />
             </button>
           )}
-          <div>
-            <h2 className="page-title flex items-center gap-2">
+          <div className="min-w-0">
+            <h2 className="page-title flex flex-wrap items-center gap-2">
               <span>Live Price Negotiation</span>
-              <span className="bg-brand text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+              <span className="rounded-full bg-brand px-2 py-0.5 text-[10px] font-bold text-white">
                 REAL-TIME
               </span>
             </h2>
@@ -113,27 +113,27 @@ export const HaggleConsoleView: React.FC<HaggleConsoleViewProps> = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Active Haggles Sidebar / Tabs */}
-        <div className="card space-y-3 h-fit">
-          <h3 className="font-bold text-xs uppercase tracking-wider text-muted">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-6">
+        <div className="card h-fit space-y-3 !p-3 sm:!p-5">
+          <h3 className="text-xs font-bold tracking-wider text-muted uppercase">
             Open Negotiations ({negotiations.length})
           </h3>
-          <div className="space-y-2">
+          <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar lg:block lg:space-y-2 lg:overflow-visible">
             {negotiations.map((neg) => {
               const isSelected = neg.id === activeNeg.id;
               return (
                 <button
                   key={neg.id}
+                  type="button"
                   onClick={() => {
                     setActiveId(neg.id);
                     setOfferValue(Math.round(neg.originalPrice * 0.85));
                     setAiSuggestionText(null);
                   }}
-                  className={`w-full text-left p-3 rounded-xl border transition-all flex items-center gap-3 ${
+                  className={`flex w-[min(280px,85vw)] shrink-0 items-center gap-3 rounded-xl border p-3 text-left transition-all lg:w-full ${
                     isSelected
-                      ? 'bg-peach border-brand shadow-xs'
-                      : 'bg-surface-sunken border-border hover:bg-surface-muted'
+                      ? 'border-brand bg-peach shadow-xs'
+                      : 'border-border bg-surface-sunken hover:bg-surface-muted'
                   }`}
                 >
                   <img
@@ -160,27 +160,30 @@ export const HaggleConsoleView: React.FC<HaggleConsoleViewProps> = ({
         </div>
 
         {/* Main Chat & Offer Console */}
-        <div className="lg:col-span-2 card-flush flex flex-col h-[620px]">
+        <div className="card-flush flex h-[min(620px,70dvh)] min-h-[480px] flex-col lg:col-span-2">
           {/* Item Banner Header */}
-          <div className="p-4 bg-surface-sunken border-b border-border flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
+          <div className="flex flex-col gap-3 border-b border-border bg-surface-sunken p-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:p-4">
+            <div className="flex min-w-0 items-center gap-3">
               <img
                 src={activeNeg.itemImage}
                 alt={activeNeg.itemTitle}
-                className="w-12 h-12 rounded-xl object-cover border border-border"
+                className="h-12 w-12 shrink-0 rounded-xl border border-border object-cover"
               />
-              <div>
-                <h4 className="font-bold text-sm text-ink">{activeNeg.itemTitle}</h4>
-                <div className="flex items-center gap-2 text-xs text-muted">
-                  <span>Asking Price: <strong className="text-ink">GHS {activeNeg.originalPrice}</strong></span>
-                  <span>•</span>
-                  <span>Current Offer: <strong className="text-brand">GHS {activeNeg.currentOffer}</strong></span>
+              <div className="min-w-0">
+                <h4 className="truncate text-sm font-bold text-ink">{activeNeg.itemTitle}</h4>
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted">
+                  <span>
+                    Asking: <strong className="text-ink">GHS {activeNeg.originalPrice}</strong>
+                  </span>
+                  <span className="hidden sm:inline">·</span>
+                  <span>
+                    Offer: <strong className="text-brand">GHS {activeNeg.currentOffer}</strong>
+                  </span>
                 </div>
               </div>
             </div>
 
-            {/* Expiration Timer */}
-            <div className="bg-peach text-brand px-3 py-1.5 rounded-xl text-xs font-extrabold flex items-center gap-1.5 shrink-0">
+            <div className="flex shrink-0 items-center gap-1.5 self-start rounded-xl bg-peach px-3 py-1.5 text-xs font-extrabold text-brand sm:self-auto">
               <Clock className="w-4 h-4" />
               <span>Expires in 15m</span>
             </div>
@@ -253,15 +256,14 @@ export const HaggleConsoleView: React.FC<HaggleConsoleViewProps> = ({
           )}
 
           {/* Interactive Offer Control Panel */}
-          <div className="p-4 bg-surface-sunken border-t border-border space-y-3">
-            {/* Offer Adjustment Slider */}
-            <div className="bg-white p-3 rounded-xl border border-border space-y-2">
+          <div className="space-y-3 border-t border-border bg-surface-sunken p-3 sm:p-4">
+            <div className="space-y-2 rounded-xl border border-border bg-white p-3">
               <div className="flex items-center justify-between text-xs font-bold text-ink">
                 <span>Your new offer price:</span>
                 <span className="text-base text-brand">GHS {offerValue}</span>
               </div>
 
-              <div className="flex items-center gap-3">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                 <input
                   type="range"
                   min={Math.round(activeNeg.originalPrice * 0.5)}
@@ -269,14 +271,14 @@ export const HaggleConsoleView: React.FC<HaggleConsoleViewProps> = ({
                   step={5}
                   value={offerValue}
                   onChange={(e) => setOfferValue(Number(e.target.value))}
-                  className="w-full accent-brand cursor-pointer"
+                  className="w-full cursor-pointer accent-brand"
                 />
 
                 <button
                   type="button"
                   onClick={fetchAiCounterStrategy}
                   disabled={isAiSuggesting}
-                  className="btn-secondary-sm shrink-0"
+                  className="btn-secondary-sm w-full shrink-0 sm:w-auto"
                 >
                   <Sparkles className="w-3.5 h-3.5" />
                   {isAiSuggesting ? 'Suggesting...' : 'Suggest Price'}
@@ -284,12 +286,11 @@ export const HaggleConsoleView: React.FC<HaggleConsoleViewProps> = ({
               </div>
             </div>
 
-            {/* Quick Action Buttons */}
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
               <button
                 type="button"
                 onClick={() => onAcceptOffer(activeNeg.id)}
-                className="btn-success text-xs py-2.5"
+                className="btn-success py-2.5 text-xs"
               >
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 Accept GHS {activeNeg.currentOffer}
@@ -298,7 +299,7 @@ export const HaggleConsoleView: React.FC<HaggleConsoleViewProps> = ({
               <button
                 type="button"
                 onClick={handleMakeCounter}
-                className="btn-primary text-xs py-2.5"
+                className="btn-primary py-2.5 text-xs"
               >
                 <Zap className="w-3.5 h-3.5" />
                 Send Offer GHS {offerValue}
@@ -307,7 +308,7 @@ export const HaggleConsoleView: React.FC<HaggleConsoleViewProps> = ({
               <button
                 type="button"
                 onClick={() => onDeclineOffer(activeNeg.id)}
-                className="btn-danger-outline text-xs py-2.5"
+                className="btn-danger-outline py-2.5 text-xs"
               >
                 <XCircle className="w-3.5 h-3.5" />
                 Decline Offer

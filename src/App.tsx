@@ -223,7 +223,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-surface text-ink flex flex-col font-sans">
+    <div className="flex min-h-dvh flex-col overflow-x-hidden bg-surface font-sans text-ink">
       {/* Toast Notification Popup */}
       {toastMessage && <div className="toast animate-bounce">{toastMessage}</div>}
 
@@ -243,7 +243,7 @@ export default function App() {
         isListening={isListeningVoice}
       />
 
-      <div className="flex w-full flex-1">
+      <div className="flex w-full min-w-0 flex-1">
         {/* Desktop Left Drawer Navigation */}
         <SideNav
           role={role}
@@ -257,7 +257,7 @@ export default function App() {
         />
 
         {/* Main Content View Container */}
-        <main className="w-full flex-1 px-4 py-6 md:ml-64 md:px-8 lg:px-10 xl:px-12">
+        <main className="min-w-0 w-full flex-1 px-3 py-4 pb-28 sm:px-4 sm:py-6 md:ml-64 md:px-8 md:pb-8 lg:px-10 xl:px-12">
           {currentView === 'dashboard' && (
             <DashboardView
               items={items}

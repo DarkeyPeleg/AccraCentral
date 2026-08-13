@@ -34,33 +34,37 @@ export const TopBar: React.FC<TopBarProps> = ({
   onVoiceClick,
   isListening,
 }) => {
+  const showSearch = currentView !== 'product-detail';
+
   return (
     <header className="sticky top-0 z-50 chrome-bar border-b shadow-sm">
-      <div className="flex w-full items-center justify-between gap-3 px-4 py-3 md:px-8 lg:px-10 xl:px-12">
+      <div className="flex w-full items-center gap-2 px-3 py-2.5 sm:gap-3 sm:px-4 sm:py-3 md:px-8 lg:px-10 xl:px-12">
         <button
           type="button"
           onClick={() => setCurrentView('marketplace')}
-          className="group flex items-center gap-2 text-left focus:outline-none"
+          className="group flex min-w-0 shrink items-center gap-2 text-left focus:outline-none"
         >
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand text-white shadow-sm transition-transform group-hover:scale-105">
-            <Store className="h-5 w-5" />
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand text-white shadow-sm transition-transform group-hover:scale-105 sm:h-10 sm:w-10">
+            <Store className="h-4 w-4 sm:h-5 sm:w-5" />
           </div>
-          <div>
-            <h1 className="flex items-center gap-2 text-lg font-bold leading-tight tracking-tight text-brand">
+          <div className="min-w-0">
+            <h1 className="truncate text-base font-bold leading-tight tracking-tight text-brand sm:text-lg">
               Accra Central
             </h1>
-            <p className="hidden text-xs text-muted sm:block">Digital Thrift & Artisan Market</p>
+            <p className="hidden truncate text-xs text-muted lg:block">
+              Digital Thrift & Artisan Market
+            </p>
           </div>
         </button>
 
-        {currentView !== 'product-detail' && (
-          <div className="relative mx-4 hidden max-w-xl flex-1 items-center lg:max-w-2xl md:flex">
+        {showSearch && (
+          <div className="relative mx-2 hidden min-w-0 max-w-xl flex-1 items-center md:flex lg:max-w-2xl">
             <Search className="absolute left-3 h-4 w-4 text-muted-soft" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search thrift items in Kantomanto, Makola..."
+              placeholder="Search thrift items..."
               className="input-search"
             />
             <button
@@ -76,7 +80,7 @@ export const TopBar: React.FC<TopBarProps> = ({
           </div>
         )}
 
-        <div className="flex items-center gap-2">
+        <div className="ml-auto flex shrink-0 items-center gap-0.5 sm:gap-1">
           <button
             type="button"
             onClick={onVoiceClick}
@@ -100,19 +104,23 @@ export const TopBar: React.FC<TopBarProps> = ({
             )}
           </button>
 
-          <button type="button" className="btn-icon relative text-muted" title="Notifications">
+          <button
+            type="button"
+            className="btn-icon relative hidden text-muted sm:inline-flex"
+            title="Notifications"
+          >
             <Bell className="h-5 w-5" />
             <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-danger" />
           </button>
 
-          <div className="ml-1 flex items-center gap-1 rounded-xl bg-surface-chip p-1 text-xs font-semibold">
+          <div className="ml-0.5 flex items-center gap-0.5 rounded-xl bg-surface-chip p-0.5 text-xs font-semibold sm:ml-1 sm:gap-1 sm:p-1">
             <button
               type="button"
               onClick={() => {
                 setRole('buyer');
                 setCurrentView('marketplace');
               }}
-              className={`flex items-center gap-1 rounded-lg px-2.5 py-1.5 transition-all ${
+              className={`flex items-center gap-1 rounded-lg px-2 py-1.5 transition-all sm:px-2.5 ${
                 role === 'buyer'
                   ? 'bg-surface-raised font-bold text-brand shadow-sm'
                   : 'text-muted hover:text-ink'
@@ -128,14 +136,14 @@ export const TopBar: React.FC<TopBarProps> = ({
                 setRole('vendor');
                 setCurrentView('vendor-dashboard');
               }}
-              className={`flex items-center gap-1 rounded-lg px-2.5 py-1.5 transition-all ${
+              className={`flex items-center gap-1 rounded-lg px-2 py-1.5 transition-all sm:px-2.5 ${
                 role === 'vendor'
                   ? 'bg-brand font-bold text-white shadow-sm'
                   : 'text-muted hover:text-ink'
               }`}
             >
               <Building2 className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline">Seller Shop</span>
+              <span className="hidden sm:inline">Seller</span>
             </button>
 
             <button
@@ -144,7 +152,7 @@ export const TopBar: React.FC<TopBarProps> = ({
                 setRole('admin');
                 setCurrentView('admin-moderation');
               }}
-              className={`flex items-center gap-1 rounded-lg px-2.5 py-1.5 transition-all ${
+              className={`flex items-center gap-1 rounded-lg px-2 py-1.5 transition-all sm:px-2.5 ${
                 role === 'admin'
                   ? 'bg-chrome font-bold text-white shadow-sm'
                   : 'text-muted hover:text-ink'
@@ -156,6 +164,31 @@ export const TopBar: React.FC<TopBarProps> = ({
           </div>
         </div>
       </div>
+
+      {showSearch && (
+        <div className="border-t border-border px-3 pb-2.5 md:hidden">
+          <div className="relative flex items-center">
+            <Search className="absolute left-3 h-4 w-4 text-muted-soft" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search products, stalls, vendors..."
+              className="input-search"
+            />
+            <button
+              type="button"
+              onClick={onVoiceClick}
+              title="Voice Search"
+              className={`absolute right-2 rounded-full p-1.5 transition-all ${
+                isListening ? 'animate-pulse bg-danger text-white' : 'text-brand hover:bg-peach'
+              }`}
+            >
+              <Mic className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+      )}
     </header>
   );
 };

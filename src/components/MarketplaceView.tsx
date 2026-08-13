@@ -68,14 +68,14 @@ export const MarketplaceView: React.FC<MarketplaceViewProps> = ({
       </div>
 
       {/* Hero Banner with West African Warm Palette */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-brand via-danger to-brand-deep p-8 text-white shadow-md md:p-10">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-brand via-danger to-brand-deep p-5 text-white shadow-md sm:p-8 md:p-10">
         <div className="pointer-events-none absolute -right-10 -bottom-10 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
         <div className="relative z-10 max-w-3xl space-y-3">
           <div className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-bold text-white backdrop-blur-md">
             <Sparkles className="h-3.5 w-3.5 text-peach" />
             Live Market Haggle & Reserve Platform
           </div>
-          <h2 className="text-3xl leading-tight font-bold tracking-tight md:text-4xl">
+          <h2 className="text-2xl leading-tight font-bold tracking-tight sm:text-3xl md:text-4xl">
             Discover Verified Thrift & Handcrafted Treasures in Accra
           </h2>
           <p className="max-w-2xl text-sm leading-relaxed text-peach md:text-base">
@@ -96,16 +96,19 @@ export const MarketplaceView: React.FC<MarketplaceViewProps> = ({
       </div>
 
       {/* Filter & Zone Selector Bar */}
-      <div className="bg-surface-sunken p-4 rounded-2xl border border-border space-y-3 shadow-xs">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          {/* Zone Selector */}
-          <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-brand" />
-            <span className="text-xs font-bold text-muted uppercase tracking-wider">Market Zone:</span>
+      <div className="space-y-3 rounded-2xl border border-border bg-surface-sunken p-3 shadow-xs sm:p-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center">
+            <div className="flex items-center gap-2">
+              <MapPin className="h-4 w-4 shrink-0 text-brand" />
+              <span className="text-xs font-bold tracking-wider text-muted uppercase">
+                Market Zone:
+              </span>
+            </div>
             <select
               value={selectedZone}
               onChange={(e) => setSelectedZone(e.target.value)}
-              className="bg-white border border-border text-xs font-semibold rounded-xl px-3 py-1.5 focus:outline-none focus:border-brand"
+              className="w-full rounded-xl border border-border bg-white px-3 py-1.5 text-xs font-semibold focus:border-brand focus:outline-none sm:w-auto"
             >
               {zones.map(z => (
                 <option key={z} value={z}>{z}</option>

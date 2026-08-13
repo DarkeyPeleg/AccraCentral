@@ -56,6 +56,13 @@
     @apply antialiased;
   }
 
+  html,
+  body,
+  #root {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
   body {
     @apply bg-surface text-ink font-sans;
   }
@@ -176,15 +183,15 @@
 
   /* —— Page chrome —— */
   .page-stack {
-    @apply space-y-6 pb-20 md:pb-8;
+    @apply space-y-5 pb-4 sm:space-y-6 md:pb-8;
   }
 
   .page-title {
-    @apply text-2xl font-bold tracking-tight text-ink;
+    @apply text-xl font-bold tracking-tight text-ink sm:text-2xl;
   }
 
   .section-title {
-    @apply text-lg font-bold tracking-tight text-ink;
+    @apply text-base font-bold tracking-tight text-ink sm:text-lg;
   }
 
   .chrome-bar {
@@ -212,8 +219,8 @@
   }
 
   .toast {
-    @apply fixed top-20 right-4 z-50 rounded-2xl border border-border bg-ink px-4 py-3
-      text-xs font-bold text-white shadow-lg;
+    @apply fixed top-20 right-4 left-4 z-50 rounded-2xl border border-border bg-ink px-4 py-3
+      text-xs font-bold text-white shadow-lg sm:left-auto sm:max-w-sm;
   }
 
   .chip {
@@ -227,6 +234,15 @@
 
   .chip-idle {
     @apply bg-surface-sunken text-muted hover:bg-surface-muted;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }
 

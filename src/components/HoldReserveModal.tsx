@@ -38,8 +38,8 @@ export const HoldReserveModal: React.FC<HoldReserveModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="modal-panel w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 p-0 backdrop-blur-xs sm:items-center sm:p-4">
+      <div className="modal-panel max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-t-2xl sm:rounded-2xl">
         {/* Header */}
         <div className="bg-brand text-white p-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -125,7 +125,7 @@ export const HoldReserveModal: React.FC<HoldReserveModalProps> = ({
               <label className="block text-xs font-bold text-muted mb-1">
                 Payment Channel
               </label>
-              <div className="grid grid-cols-3 gap-2 text-xs">
+              <div className="grid grid-cols-1 gap-2 text-xs sm:grid-cols-3">
                 <button
                   type="button"
                   onClick={() => setPaymentMethod('paystack')}

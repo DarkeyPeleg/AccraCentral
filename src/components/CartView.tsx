@@ -59,52 +59,57 @@ export const CartView: React.FC<CartViewProps> = ({
           {cartItems.map(({ item, quantity }) => (
             <div
               key={item.id}
-              className="card flex items-center gap-4 !p-4"
+              className="card flex flex-col gap-3 !p-3 sm:flex-row sm:items-center sm:!p-4"
             >
-              <img
-                src={item.imageUrl}
-                alt={item.title}
-                className="w-20 h-20 rounded-xl object-cover border"
-              />
+              <div className="flex min-w-0 flex-1 items-center gap-3">
+                <img
+                  src={item.imageUrl}
+                  alt={item.title}
+                  className="h-16 w-16 shrink-0 rounded-xl border object-cover sm:h-20 sm:w-20"
+                />
 
-              <div className="flex-1 min-w-0 space-y-1">
-                <h4 className="font-bold text-sm text-ink truncate">{item.title}</h4>
-                <p className="text-xs text-muted">{item.stallNumber} • {item.vendorName}</p>
-                <div className="text-xs text-brand font-black">
-                  GHS {item.priceGhs}
-                  <span className="text-[10px] text-muted font-normal ml-2">
-                    (GHS {Math.round(item.priceGhs * 0.2)} hold)
-                  </span>
+                <div className="min-w-0 flex-1 space-y-1">
+                  <h4 className="truncate text-sm font-bold text-ink">{item.title}</h4>
+                  <p className="truncate text-xs text-muted">
+                    {item.stallNumber} · {item.vendorName}
+                  </p>
+                  <div className="text-xs font-black text-brand">
+                    GHS {item.priceGhs}
+                    <span className="ml-2 text-[10px] font-normal text-muted">
+                      (GHS {Math.round(item.priceGhs * 0.2)} hold)
+                    </span>
+                  </div>
                 </div>
               </div>
 
-              {/* Quantity Controls */}
-              <div className="flex items-center gap-2 bg-surface-sunken p-1.5 rounded-xl border border-border">
+              <div className="flex items-center justify-between gap-2 sm:justify-end">
+                <div className="flex items-center gap-2 rounded-xl border border-border bg-surface-sunken p-1.5">
+                  <button
+                    type="button"
+                    onClick={() => onUpdateQuantity(item.id, -1)}
+                    className="flex h-7 w-7 items-center justify-center rounded-lg bg-white text-xs font-bold text-ink"
+                  >
+                    -
+                  </button>
+                  <span className="min-w-6 px-1 text-center text-xs font-bold">{quantity}</span>
+                  <button
+                    type="button"
+                    onClick={() => onUpdateQuantity(item.id, 1)}
+                    className="flex h-7 w-7 items-center justify-center rounded-lg bg-white text-xs font-bold text-ink"
+                  >
+                    +
+                  </button>
+                </div>
+
                 <button
                   type="button"
-                  onClick={() => onUpdateQuantity(item.id, -1)}
-                  className="w-6 h-6 rounded-lg bg-white font-bold text-xs flex items-center justify-center text-ink"
+                  onClick={() => onRemoveItem(item.id)}
+                  className="rounded-xl p-2 text-danger transition-colors hover:bg-danger-soft"
+                  title="Remove Item"
                 >
-                  -
-                </button>
-                <span className="text-xs font-bold px-1">{quantity}</span>
-                <button
-                  type="button"
-                  onClick={() => onUpdateQuantity(item.id, 1)}
-                  className="w-6 h-6 rounded-lg bg-white font-bold text-xs flex items-center justify-center text-ink"
-                >
-                  +
+                  <Trash2 className="w-4 h-4" />
                 </button>
               </div>
-
-              <button
-                type="button"
-                onClick={() => onRemoveItem(item.id)}
-                className="p-2 text-danger hover:bg-danger-soft rounded-xl transition-colors"
-                title="Remove Item"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
             </div>
           ))}
         </div>
